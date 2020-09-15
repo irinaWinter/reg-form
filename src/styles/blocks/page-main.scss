@@ -1,0 +1,26 @@
+.page-main {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: $bg-color;
+}
+
+.page-main__start-page {
+  align-self: center;
+}
+
+.page-main__registration {
+  align-self: flex-start;
+}
+
+@media (min-width: $mobile-width) {
+  .page-main {
+    padding: 40px;
+  }
+}
+
+@media (min-width: $tablet-width) {
+  .page-main {
+    padding: 137px;
+  }
+}

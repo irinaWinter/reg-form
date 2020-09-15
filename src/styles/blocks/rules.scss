@@ -1,0 +1,74 @@
+.rules__text {
+  margin: 0;
+  color: $grey;
+  font-size: 12px;
+}
+
+.rules__list {
+  list-style-type: none;
+  margin: 7px 0 0;
+  padding: 0;
+}
+
+.rules__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: $grey;
+  font-size: 12px;
+
+  &:not(:first-child):not(.rules__item--similarity) {
+    margin-top: 3px;
+  }
+
+  &:not(.rules__item--similarity)::before {
+    content: "";
+    margin-right: 5px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid $grey;
+    border-radius: 50%;
+  }
+
+  &--similarity {
+    margin-top: 7px;
+  }
+
+  &--success{
+    color: $success;
+  }
+
+  &:not(.rules__item--similarity).rules__item--success::before {
+    border-color: $success;
+  }
+
+  &:not(.rules__item--similarity).rules__item--success::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    width: 9px;
+    height: 8px;
+    background-image: url("../img/success-icon.svg");
+    background-size: contain;
+  }
+
+  &--error {
+    color: $error;
+  }
+
+  &:not(.rules__item--similarity).rules__item--error::before {
+    border-color: $error;
+  }
+
+  &:not(.rules__item--similarity).rules__item--error::after {
+    content: "";
+    position: absolute;
+    top: 2.5px;
+    left: 2.4px;
+    width: 9px;
+    height: 9px;
+    background-image: url("../img/error-icon.svg");
+    background-size: contain;
+  }
+}

@@ -1,0 +1,22 @@
+.button {
+  padding: 13px;
+  min-width: 240px;
+  background-color: $accent;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+
+  color: $light;
+  font-size: 14px;
+  font-weight: bold;
+
+  &:hover:not(:disabled) {
+    background-color: $accent-hover;
+    transition: all 0.3s;
+  }
+
+  &--disabled {
+    background-color: $accent-disabled;
+  }
+}
