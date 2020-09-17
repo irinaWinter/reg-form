@@ -5,11 +5,14 @@
   border: none;
   border-radius: 3px;
   outline: none;
-  cursor: pointer;
 
   color: $light;
   font-size: 14px;
   font-weight: bold;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
 
   &:hover:not(:disabled) {
     background-color: $accent-hover;
@@ -18,5 +21,9 @@
 
   &--disabled {
     background-color: $accent-disabled;
+  }
+
+  &--success {
+    background-color: $success-disabled;
   }
 }
