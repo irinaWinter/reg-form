@@ -3,34 +3,32 @@
 import './validation'
 
 (function () {
-    // Registration
-    // const registrationButton = document.querySelector('.registration__button');
+  window.registration = {
+    allowRegistration: () => {
+      if (window.validation.isValid.regForm) {
+        unlockButton();
+      } else {
+        blockButton()
+      }
+    }
+  };
 
-    // const unlockButton = () => {
-    //   registrationButton.classList.remove('button--disabled');
-    //   registrationButton.disabled = false;
-    // };
-  
-    // const blockButton = () => {
-    //   registrationButton.classList.add('button--disabled');
-    //   registrationButton.disabled = true;
-    // }
-  
-    // const allowRegistration = () => {
-    //   if (formIsValid) {
-    //     unlockButton();
-    //     console.log(formIsValid, 'можно')
-    //   } else {
-    //     blockButton()
-    //     console.log(formIsValid, 'нельзя')
-    //   }
-    // }
-  
-    // const form = document.querySelector('.registration__form');
-  
-    // const formKeyupHandler = () => {
-    //   checkValidityForm();
-    //   allowRegistration();
-    // }
-    // form.addEventListener('keyup', formKeyupHandler);
+  const registrationButton = document.querySelector('.registration__button');
+
+  const unlockButton = () => {
+    registrationButton.classList.remove('button--disabled');
+    registrationButton.disabled = false;
+  };
+
+  const blockButton = () => {
+    registrationButton.classList.add('button--disabled');
+    registrationButton.disabled = true;
+  }
+
+  const formKeyupHandler = () => {
+    window.validation.checkFormValidity();
+    window.registration.allowRegistration();
+  }
+
+  window.util.regForm.addEventListener('keyup', formKeyupHandler);
 })();
