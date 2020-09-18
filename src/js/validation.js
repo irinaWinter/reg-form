@@ -4,7 +4,6 @@ import './warning';
 
 (function () {
   const RegExp = {
-    EMAIL_ADDRESS: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i,
     NICKNAME: {
       FIRST_SYMBOL: /^[a-zA-Z]/,
       SYMBOLS: /[a-zA-Z0-9-_\.]$/
@@ -16,7 +15,6 @@ import './warning';
   };
 
   const isValid = {
-    email: false,
     nickname: false,
     password: false,
     reEntryPassword: false,
@@ -24,6 +22,9 @@ import './warning';
   };
 
   window.validation = {
+    RegExp: {
+      EMAIL_ADDRESS: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i
+    },
     passwordDoesNotRepeat: {
       email: true,
       nickname: true
@@ -33,25 +34,31 @@ import './warning';
       regForm: false
     },
     checkFormValidity: () => {
-      window.validation.isValid.regForm = isValid.email
+      window.validation.isValid.regForm = window.validation.isValid.email
         && isValid.nickname
         && isValid.password
         && isValid.reEntryPassword
         && isValid.userAgreement;
+    },
+    markPasswordField: () => {
+      validatePassword();
+      markRulesCompliance();
+  
+      if (window.form.field.password.value) {
+        window.warning.markField(isValid.password, window.form.field.password);  
+      }
     }
   }
   
   // Password
-  const passwordField = document.querySelector('.registration__input[name=password]');
-
   let passwordFieldContainLetters;
   let passwordFieldContainNumbers;
   let passwordFieldLengthIsValid;
 
   const validatePassword = () => {
-    passwordFieldContainLetters = RegExp.PASSWORD.LETTERS.test(passwordField.value);
-    passwordFieldContainNumbers = RegExp.PASSWORD.NUMBERS.test(passwordField.value);
-    passwordFieldLengthIsValid = passwordField.value.length > 5 && passwordField.value.length < 33;
+    passwordFieldContainLetters = RegExp.PASSWORD.LETTERS.test(window.form.field.password.value);
+    passwordFieldContainNumbers = RegExp.PASSWORD.NUMBERS.test(window.form.field.password.value);
+    passwordFieldLengthIsValid = window.form.field.password.value.length > 5 && window.form.field.password.value.length < 33;
  
     isValid.password = passwordFieldContainLetters
       && passwordFieldContainNumbers
@@ -71,71 +78,29 @@ import './warning';
     window.warning.markRuleComplection(rulesForLength, passwordFieldLengthIsValid);
   };
 
-  const markPasswordField = () => {
-    validatePassword();
-    markRulesCompliance();
-
-    if (passwordField.value) {
-      window.warning.markField(isValid.password, passwordField);  
-    }
-  };
-
-  const repeatEmailWarningText = document.querySelector('.repeat-email-invalid-js');
   const repeatNicknameWarningText = document.querySelector('.repeat-nickname-invalid-js');
   
   const passwordFieldKeyupHandler = () => {
-    if (emailField.value) {
-      window.validation.passwordDoesNotRepeat.email = passwordField.value !== emailField.value;
-      window.warning.showWarningText(window.validation.passwordDoesNotRepeat.email, repeatEmailWarningText);
-      window.warning.hideWarningText(window.validation.passwordDoesNotRepeat.email, repeatEmailWarningText);
+    if (window.form.field.email.value) {
+      window.validation.passwordDoesNotRepeat.email = window.form.field.password.value !== window.form.field.email.value;
+      window.warning.showWarningText(window.validation.passwordDoesNotRepeat.email, window.warning.text.repeatEmail);
+      window.warning.hideWarningText(window.validation.passwordDoesNotRepeat.email, window.warning.text.repeatEmail);
     }
 
     if (nicknameField.value) {
-      window.validation.passwordDoesNotRepeat.nickname = passwordField.value !== nicknameField.value;
+      window.validation.passwordDoesNotRepeat.nickname = window.form.field.password.value !== nicknameField.value;
       window.warning.showWarningText(window.validation.passwordDoesNotRepeat.nickname, repeatNicknameWarningText);
       window.warning.hideWarningText(window.validation.passwordDoesNotRepeat.nickname, repeatNicknameWarningText);
     }
 
-    markPasswordField();
+    window.validation.markPasswordField();
   };
-  passwordField.addEventListener('keyup', passwordFieldKeyupHandler);
+  window.form.field.password.addEventListener('keyup', passwordFieldKeyupHandler);
   
   const passwordFieldBlurHandler = () => {
-    window.warning.markField(isValid.password, passwordField);
+    window.warning.markField(isValid.password, window.form.field.password);
   };
-  passwordField.addEventListener('blur', passwordFieldBlurHandler);
-
-  // Email
-  const emailField = document.querySelector('.registration__input[name=email]');
-
-  const validateEmail = () => {
-    isValid.email = RegExp.EMAIL_ADDRESS.test(emailField.value);
-  };
-
-  const emailFieldKeyupHandler = () => {
-    validateEmail();
-    
-    if (passwordField.value) {
-      window.validation.passwordDoesNotRepeat.email = passwordField.value !== emailField.value;
-      window.warning.showWarningText(window.validation.passwordDoesNotRepeat.email, repeatEmailWarningText);
-      window.warning.hideWarningText(window.validation.passwordDoesNotRepeat.email, repeatEmailWarningText);
-    }
-
-    window.warning.hideWarningText(isValid.email, emailWarningText);
-    markPasswordField();
-  };
-
-  emailField.addEventListener('keyup', emailFieldKeyupHandler);
-
-  const emailWarningText = document.querySelector('.email-invalid-js');
-
-  const emailFieldBlurHandler = () => {
-    window.warning.markField(isValid.email, emailField);
-
-    window.warning.showWarningText(isValid.email, emailWarningText);
-    markPasswordField();
-  };
-  emailField.addEventListener('blur', emailFieldBlurHandler);
+  window.form.field.password.addEventListener('blur', passwordFieldBlurHandler);
 
   // Nickname
   const nicknameField = document.querySelector('.registration__input[name=name]');
@@ -157,8 +122,8 @@ import './warning';
   const nicknameFieldKeyupHandler = () => {
     validateNickname();
     
-    if (passwordField.value) {
-      window.validation.passwordDoesNotRepeat.nickname = passwordField.value !== nicknameField.value;
+    if (window.form.field.password.value) {
+      window.validation.passwordDoesNotRepeat.nickname = window.form.field.password.value !== nicknameField.value;
       window.warning.showWarningText(window.validation.passwordDoesNotRepeat.nickname, repeatNicknameWarningText);
       window.warning.hideWarningText(window.validation.passwordDoesNotRepeat.nickname, repeatNicknameWarningText);
     }
@@ -166,7 +131,7 @@ import './warning';
     window.warning.hideWarningText(nicknameFieldFirstSymbolIsNotNumber, nicknameFirstLetterWarningText);
     window.warning.hideWarningText(nicknameFieldAllCharactersAreValid, nicknameSymbolsWarningText);
     window.warning.hideWarningText(nicknameFieldLengthIsValid, nicknameLengthdWarningText);
-    markPasswordField();
+    window.validation.markPasswordField();
   };
   nicknameField.addEventListener('keyup', nicknameFieldKeyupHandler);
 
@@ -190,7 +155,7 @@ import './warning';
   const passwordReEntryTextError = document.querySelector('.passwords-invalid-js');
 
   const checkReEntryPasswordsMatch = () => {
-    isValid.reEntryPassword = passwordField.value === passwordReEntryField.value;
+    isValid.reEntryPassword = window.form.field.password.value === passwordReEntryField.value;
   };
 
   const passwordReEntryFieldKeyupHandler = () => {

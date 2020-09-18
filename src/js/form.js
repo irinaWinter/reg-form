@@ -2,7 +2,11 @@
 
 (function () {
   window.form = {
-    showRegFormButton: document.querySelector('.start-page__button')
+    showRegFormButton: document.querySelector('.start-page__button'),
+    field: {
+      email: document.querySelector('.registration__input[name=email]'),
+      password: document.querySelector('.registration__input[name=password]')
+    }
   }
 
   const closeButtonClickHandler = () => {

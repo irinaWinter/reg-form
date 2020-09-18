@@ -10,6 +10,9 @@
   };
 
   window.warning = {
+    text: {
+      repeatEmail: document.querySelector('.repeat-email-invalid-js')
+    },
     markField: (fieldIsValid, field) => {
       if (!fieldIsValid && fieldIsValid !== undefined) {
         markAsErroneous(field);
@@ -26,6 +29,10 @@
       if (fieldIsValid) {
         text.classList.add('hidden');
       }
+    },
+    toggleWarningText: (fieldIsValid, text) => {
+      window.warning.showWarningText(fieldIsValid, text);
+      window.warning.hideWarningText(fieldIsValid, text);
     },
     markRuleComplection: (rule, fieldIsValid) => {
       if (fieldIsValid) {
