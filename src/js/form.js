@@ -5,10 +5,11 @@
     showRegFormButton: document.querySelector('.start-page__button'),
     field: {
       email: document.querySelector('.registration__input[name=email]'),
+      nickname: document.querySelector('.registration__input[name=name]'),
       password: document.querySelector('.registration__input[name=password]')
     }
   }
-
+  
   const closeButtonClickHandler = () => {
     window.util.setDefaultPageState();
   };

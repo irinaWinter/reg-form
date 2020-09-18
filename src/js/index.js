@@ -8,3 +8,4 @@ import './disableAutocomlete';
 import './registration';
 import './sending';
 import './validation/email';
+import './validation/password';

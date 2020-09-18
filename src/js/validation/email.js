@@ -17,8 +17,8 @@ import '../form';
     window.validation.markPasswordField();
     
     if (window.form.field.password.value) {
-      window.validation.passwordDoesNotRepeat.email = window.form.field.password.value !== window.form.field.email.value;
-      window.warning.toggleWarningText(window.validation.passwordDoesNotRepeat.email, window.warning.text.repeatEmail);
+      window.validation.password.doesNotRepeat.email = window.form.field.password.value !== window.form.field.email.value;
+      window.warning.toggleWarningText(window.validation.password.doesNotRepeat.email, window.warning.text.repeatEmail);
     }
   };
   window.form.field.email.addEventListener('keyup', emailFieldKeyupHandler);
