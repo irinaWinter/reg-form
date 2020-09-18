@@ -3,6 +3,7 @@
 import '../form';
 import '../validation';
 import '../warning';
+import './reEnteringPassword';
 
 (function () {
   const Length = {
@@ -10,43 +11,76 @@ import '../warning';
     MAX: 32
   }
 
+  const RegExp = {
+    PASSWORD: {
+      LETTERS: /(?=.*[a-z])(?=.*[A-Z]).*$/,
+      NUMBERS: /^(?=.*\d).*$/
+    }
+  };
+
+  const password = {
+    contain: {
+      letters: '',
+      numbers: ''
+    },
+    lengthIsValid: ''
+  };
+
   window.password = {
+    doesNotRepeat: {
+      email: true,
+      nickname: true
+    },
     validatePassword: () => {
-      window.validation.password.contain.letters = window.validation.RegExp.PASSWORD.LETTERS.test(window.form.field.password.value);
-      window.validation.password.contain.numbers = window.validation.RegExp.PASSWORD.NUMBERS.test(window.form.field.password.value);
-      window.validation.password.lengthIsValid = window.form.field.password.value.length >= Length.MIN
+      password.contain.letters = RegExp.PASSWORD.LETTERS.test(window.form.field.password.value);
+      password.contain.numbers = RegExp.PASSWORD.NUMBERS.test(window.form.field.password.value);
+      password.lengthIsValid = window.form.field.password.value.length >= Length.MIN
         && window.form.field.password.value.length <= Length.MAX;
    
-      window.validation.isValid.password = window.validation.password.contain.letters
-        && window.validation.password.contain.numbers
-        && window.validation.password.lengthIsValid
-        && window.validation.password.doesNotRepeat.email
-        && window.validation.password.doesNotRepeat.nickname;
+      window.validation.isValid.password = password.contain.letters
+        && password.contain.numbers
+        && password.lengthIsValid
+        && window.password.doesNotRepeat.email
+        && window.password.doesNotRepeat.nickname;
     },
     markRulesCompliance: () => {
       const rulesForLetters = document.querySelector('.rules-letters-js');
-      window.warning.markRuleComplection(rulesForLetters, window.validation.password.contain.letters);
+      window.warning.markRuleComplection(rulesForLetters, password.contain.letters);
   
       const rulesForNumbers = document.querySelector('.rules-numbers-js');
-      window.warning.markRuleComplection(rulesForNumbers, window.validation.password.contain.numbers);
+      window.warning.markRuleComplection(rulesForNumbers, password.contain.numbers);
   
       const rulesForLength = document.querySelector('.rules-length-js');
-      window.warning.markRuleComplection(rulesForLength, window.validation.password.lengthIsValid);
+      window.warning.markRuleComplection(rulesForLength, password.lengthIsValid);
+    },
+    markPasswordField: () => {
+      window.password.validatePassword();
+      window.password.markRulesCompliance();
+  
+      if (window.form.field.password.value) {
+        window.warning.markField(window.validation.isValid.password, window.form.field.password);  
+      }
     }
-  };
+  }; 
   
   const passwordFieldKeyupHandler = () => {
     if (window.form.field.email.value) {
-      window.validation.password.doesNotRepeat.email = window.form.field.password.value !== window.form.field.email.value;
-      window.warning.toggleWarningText(window.validation.password.doesNotRepeat.email, window.warning.text.repeatEmail);
+      window.password.doesNotRepeat.email = window.form.field.password.value !== window.form.field.email.value;
+      window.warning.toggleWarningText(window.password.doesNotRepeat.email, window.warning.text.repeatEmail);
     }
 
     if (window.form.field.nickname.value) {
-      window.validation.password.doesNotRepeat.nickname = window.form.field.password.value !== window.form.field.nickname.value;
-      window.warning.toggleWarningText(window.validation.password.doesNotRepeat.nickname, window.warning.text.repeatNickname);
+      window.password.doesNotRepeat.nickname = window.form.field.password.value !== window.form.field.nickname.value;
+      window.warning.toggleWarningText(window.password.doesNotRepeat.nickname, window.warning.text.repeatNickname);
     }
 
-    window.validation.markPasswordField();
+    if (window.form.field.passwordReEntry.value) {
+      window.checkReEntryPasswordsMatch();
+      window.warning.markField(window.validation.isValid.reEntryPassword, window.form.field.passwordReEntry);
+      window.warning.toggleWarningText(window.validation.isValid.reEntryPassword, window.warning.text.reEntryPassword);
+    }
+
+    window.password.markPasswordField();
   };
   window.form.field.password.addEventListener('keyup', passwordFieldKeyupHandler);
   

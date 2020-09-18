@@ -1,5 +1,7 @@
 'use strict';
 
+import './reset';
+
 (function () {
   window.util = {
     regFormBox: document.querySelector('.page-main__registration'),
@@ -11,7 +13,7 @@
       elem.classList.remove('hidden');
     },
     setDefaultPageState: () => {
-      window.util.regForm.reset();
+      window.resetForm();
       window.util.hide(window.util.regFormBox);
       window.util.show(window.form.showRegFormButton);
     }

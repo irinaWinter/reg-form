@@ -91,6 +91,10 @@
   }
 }
 
+.registration__agreement-input:focus + .registration__agreement::before {
+  border-color: $border-hover;
+}
+
 .registration__agreement-input:checked + .registration__agreement::after {
   content: "";
   position: absolute;

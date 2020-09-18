@@ -12,7 +12,8 @@
   window.warning = {
     text: {
       repeatEmail: document.querySelector('.repeat-email-invalid-js'),
-      repeatNickname: document.querySelector('.repeat-nickname-invalid-js')
+      repeatNickname: document.querySelector('.repeat-nickname-invalid-js'),
+      reEntryPassword:document.querySelector('.passwords-invalid-js')
     },
     markField: (fieldIsValid, field) => {
       if (!fieldIsValid && fieldIsValid !== undefined) {

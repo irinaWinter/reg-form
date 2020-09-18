@@ -6,7 +6,8 @@
     field: {
       email: document.querySelector('.registration__input[name=email]'),
       nickname: document.querySelector('.registration__input[name=name]'),
-      password: document.querySelector('.registration__input[name=password]')
+      password: document.querySelector('.registration__input[name=password]'),
+      passwordReEntry: document.querySelector('.registration__input[name=password-check]')
     }
   }
   

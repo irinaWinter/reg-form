@@ -8,8 +8,12 @@ import './validation'
       if (window.validation.isValid.regForm) {
         unlockButton();
       } else {
-        blockButton()
+        window.registration.blockButton()
       }
+    },
+    blockButton: () => {
+      registrationButton.classList.add('button--disabled');
+      registrationButton.disabled = true;
     }
   };
 
@@ -19,11 +23,6 @@ import './validation'
     registrationButton.classList.remove('button--disabled');
     registrationButton.disabled = false;
   };
-
-  const blockButton = () => {
-    registrationButton.classList.add('button--disabled');
-    registrationButton.disabled = true;
-  }
 
   const formKeyupHandler = () => {
     window.validation.checkFormValidity();
